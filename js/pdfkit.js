@@ -3939,16 +3939,15 @@ By Devon Govett
 */
 class PDFImage {
   static open(src, label) {
-    console.log("src type:", typeof src);
-    console.log("src instanceof Uint8Array:", src instanceof Uint8Array);
-    console.log("src instanceof Buffer:", Buffer.isBuffer(src));
-    console.log("src:", src);
     let data;
     if (Buffer.isBuffer(src)) {
       data = src;
     } else if (src instanceof ArrayBuffer) {
       data = Buffer.from(new Uint8Array(src));
+    } else if (src instanceof Uint8Array) {
+      Buffer.from(src);
     } else {
+      console.log('else');
       let match;
       if (match = /^data:.+?;base64,(.*)$/.exec(src)) {
         data = Buffer.from(match[1], 'base64');
